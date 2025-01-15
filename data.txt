@@ -1,0 +1,11 @@
+MongoDB
+Username: mphan120193
+Password: bBo6A7wEYZUb2sFW
+
+Your current IP address (24.192.238.149) has been added to enable local connectivity.
+Only an IP address you add to your Access List will be able to connect to your project's clusters
+
+
+connecting String
+
+mongodb+srv://mphan120193:bBo6A7wEYZUb2sFW@cluster0.ukhms.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
