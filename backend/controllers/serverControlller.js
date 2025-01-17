@@ -3,7 +3,7 @@ import db from '../models/userModel.js';
 let getHomePage = async (req,res)=>{
     try{
         
-        return res.render('./src/views/displayCRUD.ejs')
+        return res.render('../views/displayCRUD.ejs')
         
 
     }catch(e){

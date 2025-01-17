@@ -116,10 +116,16 @@ const registerUser = asyncHandler(async (req, res) => {
       throw new Error('User not found');
     }
   });
+
+  const getHomePage = asyncHandler(async (req, res) => {
+    res.status(200).json({message: 'This is get home pages.'})
+  })
+
   export {
     authUser,
     registerUser,
     logoutUser,
     getUserProfile,
     updateUserProfile,
+    getHomePage
   };
