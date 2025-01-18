@@ -16,7 +16,7 @@ router.post('/auth', authUser);
 
 router.post('/logout', logoutUser);
 
-router.get('/home', getHomePage);
+router.get('/home', protect, getHomePage);
 
 router.get('/profile',protect, getUserProfile);
 

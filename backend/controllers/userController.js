@@ -31,7 +31,7 @@ const authUser = asyncHandler(async (req, res) => {
 // @route   POST /api/users
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-    const { name, email, password } = req.body;
+    const { firstName,lastName, email, password, address } = req.body;
   
     const userExists = await User.findOne({ email });
   
@@ -41,9 +41,11 @@ const registerUser = asyncHandler(async (req, res) => {
     }
   
     const user = await User.create({
-      name,
+      firstName,
+      lastName,
       email,
       password,
+      address,
     });
   
     if (user) {
@@ -53,6 +55,7 @@ const registerUser = asyncHandler(async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
+        address: user.address,
         
       });
     } else {
@@ -118,7 +121,12 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   const getHomePage = asyncHandler(async (req, res) => {
-    res.status(200).json({message: 'This is get home pages.'})
+
+    const userList = await User.find({}).select('-password');
+
+
+
+    res.status(200).json({userList:userList })
   })
 
   export {
