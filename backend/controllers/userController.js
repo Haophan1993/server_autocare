@@ -3,6 +3,7 @@ import User from '../models/userModel.js';
 import generateToken from '../utils/generateToken.js';
 import Allcodes from '../models/allcodesModel.js';
 
+
 // @desc    Auth user & get token
 // @route   POST /api/users/auth
 // @access  Public
@@ -16,7 +17,8 @@ const authUser = asyncHandler(async (req, res) => {
       
       res.json({
         _id: user._id,
-        name: user.name,
+        firstName: user.firstName,
+        lastName: user.lastName,
         email: user.email,
         
         
@@ -27,12 +29,18 @@ const authUser = asyncHandler(async (req, res) => {
     }
   });
 
+  
+
 
 // @desc    Register a new user
 // @route   POST /api/users
 // @access  Public
-const registerUser = asyncHandler(async (req, res) => {
-    const { firstName,lastName, email, password, address } = req.body;
+const registerUser = asyncHandler( async (req, res) => {
+    
+  const { firstName,lastName, email, password, 
+      address, roleID, phoneNumber, genderID, positionID } = req.body;
+  
+    
   
     const userExists = await User.findOne({ email });
   
@@ -47,6 +55,11 @@ const registerUser = asyncHandler(async (req, res) => {
       email,
       password,
       address,
+      roleID,
+      phoneNumber,
+      genderID,
+      positionID, 
+
     });
   
     if (user) {
@@ -54,9 +67,11 @@ const registerUser = asyncHandler(async (req, res) => {
   
       res.status(201).json({
         _id: user._id,
-        name: user.name,
+        firstName: user.firstName,
+        lastName: user.lastName,
         email: user.email,
         address: user.address,
+        roleId: user.roleID,
         
       });
     } else {
@@ -85,7 +100,8 @@ const registerUser = asyncHandler(async (req, res) => {
     if (user) {
       res.json({
         _id: user._id,
-        name: user.name,
+        firstName: user.firstName,
+        lastName: user.lastName,
         email: user.email,
       });
     } else {
@@ -101,7 +117,8 @@ const registerUser = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id);
   
     if (user) {
-      user.name = req.body.name || user.name;
+      user.firstName = req.body.firstName || user.firstName;
+      user.lastName = req.body.lastName || user.lastName;
       user.email = req.body.email || user.email;
   
       if (req.body.password) {
@@ -112,7 +129,8 @@ const registerUser = asyncHandler(async (req, res) => {
   
       res.status(200).json({
         _id: updatedUser._id,
-        name: updatedUser.name,
+        firstName: user.firstName,
+        lastName: user.lastName,
         email: updatedUser.email,
       });
     } else {
@@ -132,6 +150,7 @@ const registerUser = asyncHandler(async (req, res) => {
       user.firstName = req.body.firstName || user.firstName;
       user.lastName = req.body.lastName || user.lastName;
       user.email = req.body.email || user.email;
+      user.image = req.body.image || user.image;
   
       
   
@@ -171,7 +190,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
           const allcode = await Allcodes.find({type:inputtype});
           
-          res.status(200).json({allcide: allcode});
+          res.status(200).json({allcode: allcode});
     
         }catch(e){
           console.log(e)
@@ -210,7 +229,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
     }else{
       try{
-        const allUsers = await User.find({}).select('-password');
+        const allUsers = await User.find({}).select(' -password');
 
         if(allUsers){
           res.status(200).json({

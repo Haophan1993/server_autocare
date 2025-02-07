@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import asyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
+import multer from 'multer';
 
 const protect = asyncHandler(async (req, res, next) => {
   let token;
@@ -26,4 +27,26 @@ const protect = asyncHandler(async (req, res, next) => {
   }
 });
 
-export { protect };
+const upload = multer({
+  limits: {
+      fileSize: 1000000
+  },
+  fileFilter(req, file, cb) {
+      if (!file.originalname.match(/\.(jpg|jpeg|png|webp)$/)) {
+          return cb(new Error('Please upload an image'))
+      }
+
+      cb(undefined, true)
+  }
+})
+
+const getimage = async (req, res, next)=>{
+
+  upload.single('image');
+  req.user.image= req.file.buffer;
+  await req.user.save();
+
+
+}
+
+export { protect, getimage };

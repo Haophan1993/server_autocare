@@ -26,19 +26,20 @@ const userSchema = mongoose.Schema(
       type: String,
       required: false,
     },
-    phoneNumber: {
-      type: String,
-      required: false,
+    roleID: {
+      type: String, 
+      required: true,
+      
     },
-    gender: {
+    genderID: {
       type: String,
       required: false,
     },
     image: {
-      type: String,
+      type: Buffer,
       required: false,
     },
-    roleID: {
+    phoneNumber: {
       type: String,
       required: false,
     },
