@@ -16,7 +16,7 @@ import { authUser,
     editUser, 
      } from '../controllers/userController.js';
 
-import {getTopDoctorHome, markdownSave} from '../controllers/doctorController.js';
+
     
 import { protect} from '../middleware/authMiddleware.js';
 import sharp from 'sharp';
@@ -32,7 +32,7 @@ router.post('/allcodes', getAllcodes);
 
 router.post('/create-user', registerUser);
 
-router.post('/save', markdownSave);
+
 
 
 
@@ -85,7 +85,7 @@ router.post('/create-user-wimage' ,protect,    async (req, res) => {
 })
 
 
-router.get('/top-doctor-home', protect, getTopDoctorHome);
+
 
 
 

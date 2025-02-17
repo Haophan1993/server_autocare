@@ -6,10 +6,13 @@ const markdownSchema = new mongoose.Schema(
     type: String}
     , // Markdown content (without Base64 images)
 
+    contentHTML: {
+        type: String}
+        ,
     description:{
         type: String
     },
-    
+
     doctorId:{
         type: String
     },

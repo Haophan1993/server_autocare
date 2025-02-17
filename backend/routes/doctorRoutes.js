@@ -1,5 +1,9 @@
 import express from 'express';
-import {getTopDoctorHome, markdownSave} from '../controllers/doctorController.js';   
+import {getTopDoctorHome, 
+    saveDoctorInfor, 
+    getDoctorDetailById, 
+    createBulkDoctorSchedule,
+    getScheduleDetailByDoctorID} from '../controllers/doctorController.js';   
 import { protect} from '../middleware/authMiddleware.js';
 import sharp from 'sharp';
 import multer from 'multer';
@@ -73,7 +77,15 @@ router.post('/upload-image', upload.single('image'), async (req, res) => {
 
 
 router.get('/top-doctor-home', protect, getTopDoctorHome);
-router.post('/save-markdown', markdownSave);
+router.post('/save-doctor-infor', protect, saveDoctorInfor);
+router.get('/get-doctor-detail-by-id', getDoctorDetailById);
+
+router.post('/create-bulk-schedule', createBulkDoctorSchedule);
+router.get('/get-schedule-detail-by-doctorID', getScheduleDetailByDoctorID);
+
+
+
+
 
 
 

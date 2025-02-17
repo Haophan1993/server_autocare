@@ -20,6 +20,7 @@ const authUser = asyncHandler(async (req, res) => {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
+        roleID: user.roleID,
         
         
       });
