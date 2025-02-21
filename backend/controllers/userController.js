@@ -192,6 +192,10 @@ const registerUser = asyncHandler( async (req, res) => {
           const allcode = await Allcodes.find({type:inputtype});
           
           res.status(200).json({allcode: allcode});
+
+          
+
+
     
         }catch(e){
           console.log(e)

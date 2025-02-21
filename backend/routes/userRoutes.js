@@ -19,7 +19,7 @@ import { authUser,
 
     
 import { protect} from '../middleware/authMiddleware.js';
-import sharp from 'sharp';
+
 
 
 router.post('/', registerUser);
