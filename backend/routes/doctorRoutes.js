@@ -3,7 +3,8 @@ import {getTopDoctorHome,
     saveDoctorInfor, 
     getDoctorDetailById, 
     createBulkDoctorSchedule,
-    getScheduleDetailByDoctorID} from '../controllers/doctorController.js';   
+    getScheduleDetailByDoctorID,
+    getExtraDetailByDoctorID} from '../controllers/doctorController.js';   
 import { protect} from '../middleware/authMiddleware.js';
 import sharp from 'sharp';
 import multer from 'multer';
@@ -82,6 +83,8 @@ router.get('/get-doctor-detail-by-id', getDoctorDetailById);
 
 router.post('/create-bulk-schedule', createBulkDoctorSchedule);
 router.get('/get-schedule-detail-by-doctorID', getScheduleDetailByDoctorID);
+router.get('/get-extra-detail-by-doctorID', getExtraDetailByDoctorID);
+
 
 
 

@@ -3,7 +3,8 @@ import {serviceGetScheduleDetailByDoctorID,
   serviceCreateBulkDoctorSchedule,
   ServiceGetDoctorDetailById, 
 serviceSaveDoctorInfor,
-serviceGetTopDoctorHome} from '../services/doctorService.js';
+serviceGetTopDoctorHome,
+serviceGetExtraDetailByDoctorID} from '../services/doctorService.js';
 
 
 
@@ -219,9 +220,35 @@ const getScheduleDetailByDoctorID = async (req, res) => {
   }
 }
 
+const getExtraDetailByDoctorID = async(req, res)=>{
+  let docID = req.query.id;
+
+  try{
+    if(docID){
+      let extraInfo = await serviceGetExtraDetailByDoctorID(docID);
+      return res.status(200).json(
+        extraInfo
+      )
+
+    }else{
+      res.status(200).json({
+        message: 'Missing parameters from client'
+      })
+    }
+
+  }catch(e){
+    console.log(e);
+    return res.status(200).json({
+      message: 'Error from server'
+    })
+  }
+
+}
+
 
 export { getTopDoctorHome, 
   saveDoctorInfor, 
   getDoctorDetailById, 
   createBulkDoctorSchedule, 
-  getScheduleDetailByDoctorID }
+  getScheduleDetailByDoctorID,
+  getExtraDetailByDoctorID, }

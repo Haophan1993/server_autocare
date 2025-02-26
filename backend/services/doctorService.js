@@ -186,6 +186,25 @@ const ServiceGetDoctorDetailById = (inputId) => {
                         as: 'markdowns',
                     },
                 },
+                {
+                    $lookup: {
+                        from: "doctorinfos",
+                        let: { userId: '$_id' }, // Define a variable for the User's _id
+                        pipeline: [
+                            {
+                                $addFields: { 
+                                    doctorIdObjectId: { $toObjectId: '$doctorID' },
+                                },
+                            },
+                            {
+                                $match: { // Match the ObjectId fields
+                                    $expr: { $eq: ['$doctorIdObjectId', '$$userId'] },
+                                },
+                            },
+                        ],
+                        as: 'additionalDoctorinfo',
+                    },
+                },
             ]);
 
             if (doctorInfo) {
@@ -369,11 +388,86 @@ const serviceGetTopDoctorHome = (id) => {
 
 }
 
+const serviceGetExtraDetailByDoctorID = (id)=>{
+    return new Promise(async(resolve, reject)=>{
+        try {
+            let doctorInfo = await User.aggregate([
+                {
+                    $match: { _id: new mongoose.Types.ObjectId(id) }, // Match User by _id (if you want a specific doctor)
+                },
+                {
+                    $lookup: {
+                        from: "doctorinfos",
+                        let: { userId: '$_id' }, // Define a variable for the User's _id
+                        pipeline: [
+                            {
+                                $addFields: { 
+                                    doctorIdObjectId: { $toObjectId: '$doctorID' },
+                                },
+                            },
+                            {
+                                $match: { // Match the ObjectId fields
+                                    $expr: { $eq: ['$doctorIdObjectId', '$$userId'] },
+                                },
+                            },
+
+                            {
+                                $lookup: {
+                                    from: "allcodes",
+                                    localField: "priceID", // Field in doctorinfos
+                                    foreignField: "key", // Field in allcodes
+                                    as: "priceInfo",
+                                },
+                            },
+                            {
+                                $lookup: {
+                                    from: "allcodes",
+                                    localField: "paymentID", // Field in doctorinfos
+                                    foreignField: "key", // Field in allcodes
+                                    as: "paymentInfo",
+                                },
+                            },
+
+                            {
+                                $lookup: {
+                                    from: "allcodes",
+                                    localField: "provinceID", // Field in doctorinfos
+                                    foreignField: "key", // Field in allcodes
+                                    as: "provinceInfo",
+                                },
+                            },
+                        ],
+                        as: 'additionalDoctorinfo',
+                    },
+                },
+                
+                {
+                    $project:{
+                        image:0,
+                        password:0,
+                    }
+                }
+            ]);
+
+            if (doctorInfo) {
+                resolve(doctorInfo);
+            } else {
+                resolve();
+            }
+
+        } catch (e) {
+            console.log(e);
+            reject(e);
+        }
+    })
+}
+
 export {
     serviceGetScheduleDetailByDoctorID,
     serviceCreateBulkDoctorSchedule,
     ServiceGetDoctorDetailById,
     serviceSaveDoctorInfor,
-    serviceGetTopDoctorHome
+    serviceGetTopDoctorHome,
+    serviceGetExtraDetailByDoctorID
 }
 
